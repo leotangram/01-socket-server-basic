@@ -8,6 +8,7 @@ io.on('connection', (socket) => {
     message: 'Welcome to server',
     date: new Date(),
   })
+  socket.on('client-message', (data) => console.log(data))
 })
 server.listen(8080, () => {
   console.log('Server listening on port 8080')
