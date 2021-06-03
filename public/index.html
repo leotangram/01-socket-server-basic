@@ -33,12 +33,7 @@
 
     <div class="row">
       <div class="col">
-        <ul id="myMessages" class="mt-2">
-          <li>Hola</li>
-          <li>Mundo</li>
-          <li>Leo</li>
-          <li>Otra cosa</li>
-        </ul>
+        <ul id="myMessages" class="mt-2"></ul>
       </div>
     </div>
 
@@ -52,8 +47,19 @@
       const socket = io('http://localhost:8080/')
       const form = document.querySelector('#myForm')
       const messages = document.querySelector('#myMessages')
+      const textMessage = document.querySelector('#textMessage')
 
-      socket.on('welcome-message', (data) => console.log(data))
+      form.addEventListener('submit', (ev) => {
+        ev.preventDefault()
+        const newMessage = textMessage.value
+        socket.emit('message-to-server', { message: newMessage })
+      })
+
+      socket.on('message-from-server', (data) => {
+        messages.innerHTML += `<li>${data.message}</li>`
+      })
+
+      // socket.on('welcome-message', (data) => console.log(data))
       // setTimeout(() => {
       //   socket.emit('client-message', {
       //     message: 'Welcome to client',
